@@ -14,12 +14,13 @@ class VideoCollectionCell: BaseCollectionCell {
     var video: Video? {
         didSet{
             
-            if let videoThumbNailImageName = video?.thumbNailImageName {
-                thumbnailImageView.image = UIImage(named: videoThumbNailImageName)
+            if let thumbnailImageUrl = video?.thumbNailImageName{
+                thumbnailImageView.loadImageWithUrlString(thumbnailImageUrl)
             }
             
-            if let profileImageName = video?.channel?.profileImageName {
-                userProfileImageView.image = UIImage(named: profileImageName)
+            
+            if let profileImageUrl = video?.channel?.profileImageName {
+                userProfileImageView.loadImageWithUrlString(profileImageUrl)
             }
             
             titleLabel.text = video?.title
@@ -45,6 +46,7 @@ class VideoCollectionCell: BaseCollectionCell {
             }
             
         }
+        
     }
     
     let thumbnailImageView: UIImageView = {
@@ -132,5 +134,5 @@ class VideoCollectionCell: BaseCollectionCell {
         }
         
     }
-    
+   
 }

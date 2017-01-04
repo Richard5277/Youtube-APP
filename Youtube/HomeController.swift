@@ -10,42 +10,16 @@ import UIKit
 import SnapKit
 
 class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
-
-    var videos: [Video] = {
-        
-        // Channel Options
-        var lbChannel = Channel()
-        lbChannel.name = "NBA Player LB.J"
-        lbChannel.profileImageName = "lb"
-        
-        var taylorChannel = Channel()
-        taylorChannel.name = "Taylor Swift"
-        taylorChannel.profileImageName = "profile"
-        
-        // Video Options
-        var videos = [Video]()
-        
-        var blankSpaceVideo = Video()
-        blankSpaceVideo.title = "Taylor Swift - Blank Space - Recomended by Richard Zhao"
-        blankSpaceVideo.thumbNailImageName = "video"
-        blankSpaceVideo.numberOfViews = 343413341125623
-        blankSpaceVideo.channel = lbChannel // Have to pass the whole object 
-        videos.append(blankSpaceVideo)
-        
-        var redVideo = Video()
-        redVideo.title = "Taylor Swift - Red"
-        redVideo.thumbNailImageName = "red"
-        redVideo.numberOfViews = 3351322344511
-        redVideo.channel = taylorChannel
-        videos.append(redVideo)
-        
-        return videos
-    }()
+    
+    var videos = [Video]()
     
     let reusableCellId = "cellId"
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //MARK: Fetching Dynamic Data from API
+        fetchVideos()
         
         collectionView?.backgroundColor = .white
         collectionView?.register(VideoCollectionCell.self, forCellWithReuseIdentifier: reusableCellId)
@@ -67,17 +41,12 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reusableCellId, for: indexPath) as! VideoCollectionCell
         //MARK: Define the content inside the module, not in the controller, inside the controller, only pass the right datasource
-        
         cell.video = videos[indexPath.row]
-//        let video = videos[indexPath.row]
-//        cell.video? = video
-//        cell.thumbnailImageView.image = UIImage(named: (video.thumbNailImageName)!)
-//        cell.titleLabel.text = video.title
-//        cell.userProfileImageView.image = UIImage(named: (video.channel?.profileImageName)!)
         return cell
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        
         return videos.count
     }
     
@@ -119,6 +88,42 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
     }
     func handleMore(){
         print(456)
+    }
+    
+    //MARK: fetch videos from dynamic json file
+    func fetchVideos(){
+        let url = URL(string: "https://s3-us-west-2.amazonaws.com/youtubeassets/home.json")
+        URLSession.shared.dataTask(with: url!) { (data, response, error) in
+            if error != nil{
+                print("Error when downloading json: \(error)")
+                return
+            }
+            
+            do {
+                let json = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers)
+                
+                for dictionary in json as! [[String: AnyObject]] {
+                    //transport video data
+                    let newVideo = Video()
+                    newVideo.title = dictionary["title"] as? String
+                    newVideo.thumbNailImageName = dictionary["thumbnail_image_name"] as? String
+                    //transport channel data
+                    let channelDictionary = dictionary["channel"] as! [String: AnyObject]
+                    let channel = Channel()
+                    channel.name = channelDictionary["name"] as? String
+                    channel.profileImageName = channelDictionary["profile_image_name"] as? String
+                    newVideo.channel = channel
+                    self.videos.append(newVideo)
+                }
+            } catch let jsonError {
+                print(jsonError)
+            }
+            DispatchQueue.main.async {
+                self.collectionView?.reloadData()
+            }
+//            let str = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
+//            print(str ?? "Videos Json Data")
+        }.resume()
     }
 }
 

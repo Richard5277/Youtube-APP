@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		AA00646A1E14534A00C3EB75 /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0064691E14534A00C3EB75 /* CollectionViewCell.swift */; };
-		AA00646D1E145BC400C3EB75 /* ConstraintFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00646C1E145BC400C3EB75 /* ConstraintFormat.swift */; };
+		AA00646D1E145BC400C3EB75 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00646C1E145BC400C3EB75 /* Extensions.swift */; };
 		AA0064701E147B4D00C3EB75 /* MenuBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00646F1E147B4D00C3EB75 /* MenuBar.swift */; };
 		AA0064721E1488EB00C3EB75 /* VideoCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0064711E1488EB00C3EB75 /* VideoCollectionCell.swift */; };
 		AA0064741E1489F500C3EB75 /* MenuCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0064731E1489F500C3EB75 /* MenuCollectionCell.swift */; };
@@ -25,7 +25,7 @@
 		6182F3E16D8E69D6311B0952 /* Pods-Youtube.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Youtube.release.xcconfig"; path = "Pods/Target Support Files/Pods-Youtube/Pods-Youtube.release.xcconfig"; sourceTree = "<group>"; };
 		7CF35277BADA6FD3D411657C /* Pods_Youtube.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Youtube.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA0064691E14534A00C3EB75 /* CollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
-		AA00646C1E145BC400C3EB75 /* ConstraintFormat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConstraintFormat.swift; sourceTree = "<group>"; };
+		AA00646C1E145BC400C3EB75 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		AA00646F1E147B4D00C3EB75 /* MenuBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuBar.swift; sourceTree = "<group>"; };
 		AA0064711E1488EB00C3EB75 /* VideoCollectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoCollectionCell.swift; sourceTree = "<group>"; };
 		AA0064731E1489F500C3EB75 /* MenuCollectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuCollectionCell.swift; sourceTree = "<group>"; };
@@ -71,7 +71,7 @@
 		AA00646B1E145BA100C3EB75 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
-				AA00646C1E145BC400C3EB75 /* ConstraintFormat.swift */,
+				AA00646C1E145BC400C3EB75 /* Extensions.swift */,
 			);
 			name = Extension;
 			sourceTree = "<group>";
@@ -272,7 +272,7 @@
 				AA00646A1E14534A00C3EB75 /* CollectionViewCell.swift in Sources */,
 				AA0064741E1489F500C3EB75 /* MenuCollectionCell.swift in Sources */,
 				AA00647C1E15C3F500C3EB75 /* Video.swift in Sources */,
-				AA00646D1E145BC400C3EB75 /* ConstraintFormat.swift in Sources */,
+				AA00646D1E145BC400C3EB75 /* Extensions.swift in Sources */,
 				AA0064701E147B4D00C3EB75 /* MenuBar.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

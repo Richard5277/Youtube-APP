@@ -1,5 +1,5 @@
 //
-//  ConstraintFormat.swift
+//  Extensions.swift
 //  Youtube
 //
 //  Created by Feihong Zhao on 2016-12-28.
@@ -39,6 +39,7 @@ struct MyColor {
     static var mainRed: UIColor = UIColor.rgb(red: 230, green: 32, blue: 31)
 }
 
+//MARK: resizing image
 extension UIImage {
     
     func resizeImage(image: UIImage, newWidth: CGFloat) -> UIImage {
@@ -52,6 +53,25 @@ extension UIImage {
         
         return newImage!
     }
+    
+}
+
+//MARK: easy way to load image from URL
+extension UIImageView {
+    
+    func loadImageWithUrlString(_ urlString: String){
+        
+            let url = URL(string: urlString)
+            URLSession.shared.dataTask(with: url!) { (data, response, error) in
+                if error != nil{
+                    print("Error when downloading json: \(error)")
+                    return
+                }
+                DispatchQueue.main.async {
+                    self.image = UIImage(data: data!)
+                }
+                }.resume() //MARK: resume() is very important
+        }
     
 }
 
