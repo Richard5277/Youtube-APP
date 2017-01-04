@@ -49,8 +49,8 @@ class VideoCollectionCell: BaseCollectionCell {
         
     }
     
-    let thumbnailImageView: UIImageView = {
-        let imageView = UIImageView()
+    let thumbnailImageView: cumstomImageView = {
+        let imageView = cumstomImageView()
         // Video Ratial 16:9
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
@@ -63,8 +63,8 @@ class VideoCollectionCell: BaseCollectionCell {
         return view
     }()
     
-    let userProfileImageView: UIImageView = {
-        let imageView = UIImageView()
+    let userProfileImageView: cumstomImageView = {
+        let imageView = cumstomImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = 23
@@ -94,7 +94,7 @@ class VideoCollectionCell: BaseCollectionCell {
         thumbnailImageView.snp.makeConstraints { (make) in
             make.top.equalToSuperview().offset(8)
             make.height.equalTo(self.bounds.width * 9/16)
-            make.width.equalToSuperview().offset(-16)
+            make.width.equalToSuperview().offset(-32)
             make.centerX.equalToSuperview()
         }
         
@@ -110,14 +110,14 @@ class VideoCollectionCell: BaseCollectionCell {
         userProfileImageView.snp.makeConstraints { (make) in
             make.width.equalTo(46)
             make.height.equalTo(46)
-            make.left.equalToSuperview().offset(8)
+            make.left.equalToSuperview().offset(16)
             make.top.equalTo(thumbnailImageView.snp.bottom).offset(12)
         }
         
         addSubview(titleLabel)
         titleLabel.snp.makeConstraints { (make) in
             make.left.equalTo(userProfileImageView.snp.right).offset(8)
-            make.right.equalToSuperview().offset(-8)
+            make.right.equalToSuperview().offset(-16)
             make.top.equalTo(thumbnailImageView.snp.bottom).offset(8)
         }
         // Height Constraint for title label
@@ -128,7 +128,7 @@ class VideoCollectionCell: BaseCollectionCell {
         addSubview(detailLabel)
         detailLabel.snp.makeConstraints { (make) in
             make.left.equalTo(userProfileImageView.snp.right).offset(8)
-            make.right.equalToSuperview().offset(-8)
+            make.right.equalToSuperview().offset(-16)
             make.top.equalTo(titleLabel.snp.bottom).offset(-2)
             make.height.equalTo(36)
         }

@@ -57,23 +57,70 @@ extension UIImage {
 }
 
 //MARK: easy way to load image from URL
-extension UIImageView {
-    
+let imageCache = NSCache<AnyObject, AnyObject>()
+
+//extension UIImageView {
+//    
+//    func loadImageWithUrlString(_ urlString: String){
+//        
+//        let url = URL(string: urlString)
+//        image = nil
+//        
+//        if let imageFromCache = imageCache.object(forKey: urlString as AnyObject) as? UIImage{
+//            self.image = imageFromCache
+//        }
+//        
+//        URLSession.shared.dataTask(with: url!) { (data, response, error) in
+//            if error != nil{
+//                print("Error when downloading json: \(error)")
+//                return
+//            }
+//            DispatchQueue.main.async {
+//                
+//                let imageToCache = UIImage(data: data!)
+//                
+//                imageCache.setObject(imageToCache!, forKey: urlString as AnyObject)
+//                
+//                self.image = imageToCache
+//            }
+//            }.resume() //MARK: resume() is very important
+//    }
+//    
+//}
+
+class cumstomImageView: UIImageView {
+    var imageUrlString: String?
     func loadImageWithUrlString(_ urlString: String){
         
-            let url = URL(string: urlString)
-            URLSession.shared.dataTask(with: url!) { (data, response, error) in
-                if error != nil{
-                    print("Error when downloading json: \(error)")
-                    return
-                }
-                DispatchQueue.main.async {
-                    self.image = UIImage(data: data!)
-                }
-                }.resume() //MARK: resume() is very important
+        imageUrlString = urlString
+        
+        let url = URL(string: urlString)
+        image = nil
+        
+        if let imageFromCache = imageCache.object(forKey: urlString as AnyObject) as? UIImage{
+            self.image = imageFromCache
         }
-    
+        
+        URLSession.shared.dataTask(with: url!) { (data, response, error) in
+            if error != nil{
+                print("Error when downloading json: \(error)")
+                return
+            }
+            DispatchQueue.main.async {
+                
+                let imageToCache = UIImage(data: data!)
+                
+                if self.imageUrlString == urlString{
+                    self.image = imageToCache
+                }
+                
+                imageCache.setObject(imageToCache!, forKey: urlString as AnyObject)
+            }
+            }.resume() //MARK: resume() is very important
+    }
+
 }
+
 
 
 
