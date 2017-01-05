@@ -86,8 +86,27 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
     func handleSearch(){
         print(123)
     }
+    
+    //MARK: setting menu is no-longer a view, its a object inside the HomController
+    //MARK: Importance of 'lazy var'
+    lazy var settingsLancher: SettingLauncher = {
+        let settingsLauncher = SettingLauncher()
+        settingsLauncher.homeController = self
+        return settingsLauncher
+    }()
+    
     func handleMore(){
-        print(456)
+        settingsLancher.showSettings()
+    }
+    
+    func showDetailViewForSetting(_ setting: Setting){
+        let detailViewController = UIViewController()
+        detailViewController.title = setting.name
+        detailViewController.view.backgroundColor = .yellow
+        navigationController?.pushViewController(detailViewController, animated: true)
+        
+        //MARK: Change navigation stack title color
+        navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
     }
     
     //MARK: fetch videos from dynamic json file
