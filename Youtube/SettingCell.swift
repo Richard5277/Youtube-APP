@@ -17,7 +17,7 @@ class SettingCell: BaseCollectionCell {
             if let imageName = setting?.iconName, let labelName = setting?.name {
                 settingIcon.image = UIImage(named: imageName)?.withRenderingMode(.alwaysTemplate)
                 settingIcon.tintColor = .darkGray
-                settingLabel.text = labelName
+                settingLabel.text = labelName.rawValue
             }
             
         }

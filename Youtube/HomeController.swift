@@ -101,8 +101,8 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
     
     func showDetailViewForSetting(_ setting: Setting){
         let detailViewController = UIViewController()
-        detailViewController.title = setting.name
-        detailViewController.view.backgroundColor = .yellow
+        detailViewController.title = setting.name.rawValue
+        detailViewController.view.backgroundColor = .white
         navigationController?.pushViewController(detailViewController, animated: true)
         
         //MARK: Change navigation stack title color

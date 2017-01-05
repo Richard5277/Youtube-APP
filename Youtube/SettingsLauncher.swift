@@ -9,12 +9,22 @@
 import UIKit
 
 class Setting: NSObject {
-    let name: String
+    let name: SettingName
     let iconName: String
-    init(name: String, iconName: String) {
+    init(name: SettingName, iconName: String) {
         self.name = name
         self.iconName = iconName
     }
+}
+
+//MARK: using enumuration to avoid string value condition check
+enum SettingName: String {
+    case cancel = "Cancel"
+    case setting = "Setting"
+    case home = "Home"
+    case terms = "Terms & Policies"
+    case feedback = "Feedback"
+    case help = "Help"
 }
 
 class SettingLauncher: NSObject, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
@@ -26,21 +36,21 @@ class SettingLauncher: NSObject, UICollectionViewDataSource, UICollectionViewDel
     }()
     
     let cellId = "cellId"
-    
+
     let settings:[Setting] = {
         var settings = [Setting]()
         
-        let settingCell = Setting(name: "Setting", iconName: "setting")
+        let settingCell = Setting(name: .setting, iconName: "setting")
         settings.append(settingCell)
-        let homeCell = Setting(name: "Home", iconName: "setting")
+        let homeCell = Setting(name: .home, iconName: "setting")
         settings.append(homeCell)
-        let termsCell = Setting(name: "Terms & Privacy", iconName: "setting")
+        let termsCell = Setting(name: .terms, iconName: "setting")
         settings.append(termsCell)
-        let helpCell = Setting(name: "Help", iconName: "setting")
+        let helpCell = Setting(name: .help, iconName: "setting")
         settings.append(helpCell)
-        let feedbackCell = Setting(name: "Feedback", iconName: "setting")
+        let feedbackCell = Setting(name: .feedback, iconName: "setting")
         settings.append(feedbackCell)
-        let cancelCell = Setting(name: "Cancel", iconName: "setting")
+        let cancelCell = Setting(name: .cancel, iconName: "setting")
         settings.append(cancelCell)
         
         return settings
@@ -90,8 +100,8 @@ class SettingLauncher: NSObject, UICollectionViewDataSource, UICollectionViewDel
                 self.settingCollectionView.frame = CGRect(x: 0, y: window.frame.height, width: self.settingCollectionView.frame.width, height: self.settingCollectionView.frame.height)
             }
         }) { (true) in
-            
-            if setting.name != "Cancel" && setting.name != ""  {
+            //MARK: Never check the conditon of a string value !!!
+            if setting.name != .cancel && setting.name.rawValue != ""  {
                 self.homeController?.showDetailViewForSetting(setting)
             }
         }
