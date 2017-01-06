@@ -15,12 +15,17 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
     
     let reusableCellId = "cellId"
     
+    func fetchVideos(){
+        ApiService.sharedInstance.fetchVideos { (videos: [Video]) in
+            self.videos = videos
+            self.collectionView?.reloadData()
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //MARK: Fetching Dynamic Data from API
         fetchVideos()
-        
         collectionView?.backgroundColor = .white
         collectionView?.register(VideoCollectionCell.self, forCellWithReuseIdentifier: reusableCellId)
         collectionView?.alwaysBounceVertical = true
@@ -29,7 +34,7 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
         navigationController?.navigationBar.isTranslucent = false
         
         let titleLabel = UILabel(frame: CGRect(x: 0, y: 0, width: view.frame.width - 8, height: view.frame.height))
-        titleLabel.text = "Home"
+        titleLabel.text = "  Home"
         titleLabel.textColor = .white
         titleLabel.font = UIFont.systemFont(ofSize: 20)
         navigationItem.titleView = titleLabel
@@ -65,13 +70,30 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
         return menuBar
     }()
     private func setUpMenuBar(){
+        
+        //MARK: Hide NavigationBar when Swiping
+        navigationController?.hidesBarsOnSwipe = true
+        let redView = UIView()
+        redView.backgroundColor = MyColor.mainRed
+        
+        view.addSubview(redView)
+        redView.snp.makeConstraints { (make) in
+            make.centerX.equalToSuperview()
+            make.width.equalToSuperview()
+            make.height.equalTo(50)
+            make.top.equalToSuperview()
+        }
+        
         view.addSubview(menuBar)
         menuBar.snp.makeConstraints { (make) in
-            make.top.equalToSuperview()
+//            make.top.equalToSuperview()
             make.width.equalToSuperview()
             make.centerX.equalToSuperview()
             make.height.equalTo(50)
         }
+        
+        //MARK: use topLayoutGuide to put content below the tatus bar
+        menuBar.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor).isActive = true
     }
     
     func setUpNavBarButtons(){
@@ -109,40 +131,5 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
         navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
     }
     
-    //MARK: fetch videos from dynamic json file
-    func fetchVideos(){
-        let url = URL(string: "https://s3-us-west-2.amazonaws.com/youtubeassets/home.json")
-        URLSession.shared.dataTask(with: url!) { (data, response, error) in
-            if error != nil{
-                print("Error when downloading json: \(error)")
-                return
-            }
-            
-            do {
-                let json = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers)
-                
-                for dictionary in json as! [[String: AnyObject]] {
-                    //transport video data
-                    let newVideo = Video()
-                    newVideo.title = dictionary["title"] as? String
-                    newVideo.thumbNailImageName = dictionary["thumbnail_image_name"] as? String
-                    //transport channel data
-                    let channelDictionary = dictionary["channel"] as! [String: AnyObject]
-                    let channel = Channel()
-                    channel.name = channelDictionary["name"] as? String
-                    channel.profileImageName = channelDictionary["profile_image_name"] as? String
-                    newVideo.channel = channel
-                    self.videos.append(newVideo)
-                }
-            } catch let jsonError {
-                print(jsonError)
-            }
-            DispatchQueue.main.async {
-                self.collectionView?.reloadData()
-            }
-//            let str = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
-//            print(str ?? "Videos Json Data")
-        }.resume()
-    }
 }
 
