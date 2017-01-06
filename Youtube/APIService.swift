@@ -29,10 +29,13 @@ class ApiService: NSObject {
                 
                 
                 for dictionary in json as! [[String: AnyObject]] {
+                    
                     //transport video data
                     let newVideo = Video()
                     newVideo.title = dictionary["title"] as? String
                     newVideo.thumbNailImageName = dictionary["thumbnail_image_name"] as? String
+                    newVideo.numberOfViews = dictionary["number_of_views"] as? NSNumber
+                    
                     //transport channel data
                     let channelDictionary = dictionary["channel"] as! [String: AnyObject]
                     let channel = Channel()
@@ -48,7 +51,6 @@ class ApiService: NSObject {
                 
                 completion(self.videos)
                 
-//                self.collectionView?.reloadData()
             }
             }.resume()
     }

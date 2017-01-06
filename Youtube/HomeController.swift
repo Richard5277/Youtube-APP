@@ -11,10 +11,16 @@ import SnapKit
 
 class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
-    var videos = [Video]()
-    
     let reusableCellId = "cellId"
+    let titles = ["Home", "Trending", "Subscriptions", "Account"]
     
+    lazy var titleLabel: UILabel = {
+        let label = UILabel(frame: CGRect(x: 0, y: 0, width: self.view.frame.width - 8, height: self.view.frame.height))
+        label.textColor = .white
+        label.text = "  Home"
+        label.font = UIFont.systemFont(ofSize: 20)
+        return label
+    }()
     
     lazy var menuBar: MenuBar = {
         let menuBar = MenuBar()
@@ -34,7 +40,6 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        fetchVideos()
         setUpMenuBar()
         setUpNavBarButtons()
         setUpCollectionView()
@@ -46,10 +51,6 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reusableCellId, for: indexPath)
-        
-        let cellColors: [UIColor] = [.blue, .green, .purple, .orange]
-        cell.backgroundColor = cellColors[indexPath.item]
-
         return cell
     }
     
@@ -62,18 +63,13 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
         //MARK: change the icon to right target
         let target = Int(targetContentOffset.pointee.x / view.frame.width)
         let indexPath = NSIndexPath(item: target, section: 0) as IndexPath
+        
+        setTitleForIndex(target)
         menuBar.collectionView.selectItem(at: indexPath, animated: true, scrollPosition: .init(rawValue: 0))
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: view.frame.width, height: view.frame.height)
-    }
-
-    func fetchVideos(){
-        ApiService.sharedInstance.fetchVideos { (videos: [Video]) in
-            self.videos = videos
-            self.collectionView?.reloadData()
-        }
+        return CGSize(width: view.frame.width, height: view.frame.height - 50)
     }
     
     func setUpCollectionView(){
@@ -84,23 +80,15 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
             flowLayout.minimumLineSpacing = 0
         }
         
-        let titleLabel = UILabel(frame: CGRect(x: 0, y: 0, width: view.frame.width - 8, height: view.frame.height))
-        titleLabel.text = "  Home"
-        titleLabel.textColor = .white
-        titleLabel.font = UIFont.systemFont(ofSize: 20)
         navigationItem.titleView = titleLabel
         
         collectionView?.backgroundColor = .white
-//        collectionView?.alwaysBounceVertical = true
-//        collectionView?.contentInset = UIEdgeInsets(top: 55, left: 0, bottom: 8, right: 0)
-//        collectionView?.scrollIndicatorInsets = UIEdgeInsets(top: 55, left: 0, bottom: 8, right: 0)
         navigationController?.navigationBar.isTranslucent = false
         
         //Seperate Different Cells to pages as a whole
         collectionView?.isPagingEnabled = true
         
-//        collectionView?.register(VideoCollectionCell.self, forCellWithReuseIdentifier: reusableCellId)
-        collectionView?.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reusableCellId)
+        collectionView?.register(FeedCell.self, forCellWithReuseIdentifier: reusableCellId)
     }
     
     private func setUpMenuBar(){
@@ -139,12 +127,17 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
         navigationItem.rightBarButtonItems = [moreButtonItem,searchButtonItem]
     }
     func handleSearch(){
-        scrollToMenuAtIndex(2)
+        print("Search")
     }
     
+    private func setTitleForIndex(_ index: Int){
+        //MARK: Wheneve You have to copy-past something, wrape them into a func
+        self.titleLabel.text = "  \(titles[index])"
+    }
     func scrollToMenuAtIndex(_ menuIndex: Int){
         let indexPath = NSIndexPath(item: menuIndex, section: 0) as IndexPath
         collectionView?.scrollToItem(at: indexPath, at: .init(rawValue: 0) , animated: true)
+        setTitleForIndex(menuIndex)
     }
     
     func handleMore(){

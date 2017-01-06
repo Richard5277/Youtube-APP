@@ -24,13 +24,14 @@ class VideoCollectionCell: BaseCollectionCell {
             }
             
             titleLabel.text = video?.title
+            
             if let channelName = video?.channel?.name, let numberofviews = video?.numberOfViews {
                 
                 //MARK: Getting the correct style of number
                 let numberFormatter = NumberFormatter()
                 numberFormatter.numberStyle = .decimal
                 
-                detailLabel.text = "\(channelName) • views: \(numberFormatter.string(from: numberofviews)!) • 2 years ago"
+                detailLabel.text = "\(channelName) ☻ views: \(numberFormatter.string(from: numberofviews)!) ☻ 2 years ago"
             }
             
             //MARK: measure title text
