@@ -11,7 +11,9 @@ import SnapKit
 
 class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
-    let reusableCellId = "cellId"
+    let homeCellId = "homeCellId"
+    let trendingCellId = "trendingCellId"
+    
     let titles = ["Home", "Trending", "Subscriptions", "Account"]
     
     lazy var titleLabel: UILabel = {
@@ -50,7 +52,11 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reusableCellId, for: indexPath)
+        
+        if indexPath.item == 1 {
+            return collectionView.dequeueReusableCell(withReuseIdentifier: trendingCellId, for: indexPath)
+        }
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: homeCellId, for: indexPath)
         return cell
     }
     
@@ -88,7 +94,8 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
         //Seperate Different Cells to pages as a whole
         collectionView?.isPagingEnabled = true
         
-        collectionView?.register(FeedCell.self, forCellWithReuseIdentifier: reusableCellId)
+        collectionView?.register(FeedCell.self, forCellWithReuseIdentifier: homeCellId)
+        collectionView?.register(TrendingCell.self, forCellWithReuseIdentifier: trendingCellId)
     }
     
     private func setUpMenuBar(){

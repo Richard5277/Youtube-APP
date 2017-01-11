@@ -13,23 +13,21 @@ class FeedCell: BaseCollectionCell, UICollectionViewDataSource, UICollectionView
     
     let cellId = "cellId"
     var videos = [Video]()
+    
     lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         cv.backgroundColor = .white
-        cv.dataSource = self
         cv.delegate = self
+        cv.dataSource = self
         return cv
     }()
     
     override func setUpViews() {
         
         super.setUpViews()
-        
-        ApiService.sharedInstance.fetchVideos { (videos) in
-            self.videos = videos
-            self.collectionView.reloadData()
-        }
+       
+        fetchVideosFromApiservice()
         
         addSubview(collectionView)
         collectionView.snp.makeConstraints { (make) in
@@ -41,6 +39,15 @@ class FeedCell: BaseCollectionCell, UICollectionViewDataSource, UICollectionView
         
         collectionView.register(VideoCollectionCell.self, forCellWithReuseIdentifier: cellId)
         collectionView.contentInset = UIEdgeInsets(top: 35, left: 0, bottom: 0, right: 0)
+    }
+    
+    func fetchVideosFromApiservice(){
+
+        ApiService.sharedInstance.fetchVideosForHome { (videos) in
+            self.videos = [Video]()
+            self.videos = videos
+            self.collectionView.reloadData()
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

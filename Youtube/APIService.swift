@@ -15,8 +15,22 @@ class ApiService: NSObject {
     
     //MARK: fetch videos from dynamic json file
     //MARK: Fetching Dynamic Data from API     
-    func fetchVideos(completion: @escaping ([Video]) -> ()){
-        let url = URL(string: "https://s3-us-west-2.amazonaws.com/youtubeassets/home.json")
+    func fetchVideosForHome(completion: @escaping ([Video]) -> ()){
+        let urlString = "https://s3-us-west-2.amazonaws.com/youtubeassets/home.json" as String
+        fetchVideosFromForUrl(urlString: urlString) { (videos) in
+            completion(videos)
+        }
+    }
+    
+    func fetchVideosForTrending(completion: @escaping ([Video]) -> ()){
+        let urlString = "https://s3-us-west-2.amazonaws.com/youtubeassets/trending.json" as String
+        fetchVideosFromForUrl(urlString: urlString) { (videos) in
+            completion(videos)
+        }
+    }
+    
+    func fetchVideosFromForUrl(urlString: String, completion: @escaping ([Video]) -> ()){
+        let url = URL(string: urlString)
         URLSession.shared.dataTask(with: url!) { (data, response, error) in
             if error != nil{
                 print("Error when downloading json: \(error)")
@@ -53,5 +67,6 @@ class ApiService: NSObject {
                 
             }
             }.resume()
+
     }
 }

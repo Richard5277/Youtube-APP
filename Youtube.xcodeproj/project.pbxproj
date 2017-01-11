@@ -22,6 +22,7 @@
 		AA62CC661E1448A1008045C1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA62CC651E1448A1008045C1 /* Assets.xcassets */; };
 		AA62CC691E1448A1008045C1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA62CC671E1448A1008045C1 /* LaunchScreen.storyboard */; };
 		CA69BA2C9D0AA5A6600B5C0B /* Pods_Youtube.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CF35277BADA6FD3D411657C /* Pods_Youtube.framework */; };
+		E377B6931E26A8BD009565F3 /* TrendingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E377B6921E26A8BD009565F3 /* TrendingCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +45,7 @@
 		AA62CC651E1448A1008045C1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AA62CC681E1448A1008045C1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		AA62CC6A1E1448A1008045C1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E377B6921E26A8BD009565F3 /* TrendingCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrendingCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +94,7 @@
 				AA0064731E1489F500C3EB75 /* MenuCollectionCell.swift */,
 				AA2EAB5B1E1DC0FA0053F500 /* SettingCell.swift */,
 				AA07411B1E20134300C30C6E /* FeedCell.swift */,
+				E377B6921E26A8BD009565F3 /* TrendingCell.swift */,
 			);
 			name = view;
 			sourceTree = "<group>";
@@ -297,6 +300,7 @@
 				AA00647C1E15C3F500C3EB75 /* Video.swift in Sources */,
 				AA00646D1E145BC400C3EB75 /* Extensions.swift in Sources */,
 				AA2EAB5C1E1DC0FA0053F500 /* SettingCell.swift in Sources */,
+				E377B6931E26A8BD009565F3 /* TrendingCell.swift in Sources */,
 				AA0064701E147B4D00C3EB75 /* MenuBar.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
