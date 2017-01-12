@@ -10,13 +10,14 @@ import UIKit
 
 class TrendingCell: FeedCell {
     
-//    override var videos: [Video]? = [Video]()
-    
-    override func fetchVideosFromApiservice() {
-        ApiService.sharedInstance.fetchVideosForTrending { (videos) in
-            self.videos = [Video]()
+    override func fetchVideosFromApiService() {
+
+//        let trendingVideosUrl = "https://s3-us-west-2.amazonaws.com/youtubeassets/trending.json"
+        ApiService.sharedInstance.fetchVideosForUrl(urlString: VideoFeedUrl.trending.rawValue, completion: {(videos)in
             self.videos = videos
-            self.collectionView.reloadData()
-        }
+            DispatchQueue.main.async {
+                self.collectionView.reloadData()
+            }
+        })
     }
 }

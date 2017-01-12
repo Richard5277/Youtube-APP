@@ -14,18 +14,18 @@ class VideoCollectionCell: BaseCollectionCell {
     var video: Video? {
         didSet{
             
-            if let thumbnailImageUrl = video?.thumbNailImageName{
+            if let thumbnailImageUrl = video?.thumbnail_image_name{
                 thumbnailImageView.loadImageWithUrlString(thumbnailImageUrl)
             }
             
             
-            if let profileImageUrl = video?.channel?.profileImageName {
+            if let profileImageUrl = video?.channel?.profile_image_name {
                 userProfileImageView.loadImageWithUrlString(profileImageUrl)
             }
             
             titleLabel.text = video?.title
             
-            if let channelName = video?.channel?.name, let numberofviews = video?.numberOfViews {
+            if let channelName = video?.channel?.name, let numberofviews = video?.number_of_views {
                 
                 //MARK: Getting the correct style of number
                 let numberFormatter = NumberFormatter()

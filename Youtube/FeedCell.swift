@@ -11,8 +11,15 @@ import SnapKit
 
 class FeedCell: BaseCollectionCell, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
+    enum VideoFeedUrl: String {
+        case home = "https://s3-us-west-2.amazonaws.com/youtubeassets/home.json"
+        case trending = "https://s3-us-west-2.amazonaws.com/youtubeassets/trending.json"
+        case subscriptions = "https://s3-us-west-2.amazonaws.com/youtubeassets/subscriptions.json"
+    }
+    
     let cellId = "cellId"
-    var videos = [Video]()
+//    var videos = [Video]()
+    var videos: [Video]?
     
     lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -23,11 +30,22 @@ class FeedCell: BaseCollectionCell, UICollectionViewDataSource, UICollectionView
         return cv
     }()
     
+    func fetchVideosFromApiService(){
+        
+//        let homeVideosUrl = "https://s3-us-west-2.amazonaws.com/youtubeassets/home.json"
+        ApiService.sharedInstance.fetchVideosForUrl(urlString: VideoFeedUrl.home.rawValue, completion: {(videos)in
+            self.videos = videos
+            DispatchQueue.main.async {
+                self.collectionView.reloadData()
+            }
+        })
+    }
+    
     override func setUpViews() {
         
         super.setUpViews()
        
-        fetchVideosFromApiservice()
+        fetchVideosFromApiService()
         
         addSubview(collectionView)
         collectionView.snp.makeConstraints { (make) in
@@ -41,22 +59,16 @@ class FeedCell: BaseCollectionCell, UICollectionViewDataSource, UICollectionView
         collectionView.contentInset = UIEdgeInsets(top: 35, left: 0, bottom: 0, right: 0)
     }
     
-    func fetchVideosFromApiservice(){
-
-        ApiService.sharedInstance.fetchVideosForHome { (videos) in
-            self.videos = [Video]()
-            self.videos = videos
-            self.collectionView.reloadData()
-        }
-    }
-    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return videos.count
+        if let number = videos?.count {
+            return number
+        }
+        return 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! VideoCollectionCell
-        cell.video = videos[indexPath.item]
+        cell.video = videos?[indexPath.item]
         return cell
     }
     

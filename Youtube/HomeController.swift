@@ -13,6 +13,7 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
     
     let homeCellId = "homeCellId"
     let trendingCellId = "trendingCellId"
+    let subscriptionsCellId = "subscriptionsCellId"
     
     let titles = ["Home", "Trending", "Subscriptions", "Account"]
     
@@ -53,10 +54,16 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
+        var identifier: String = homeCellId
+        
+        
         if indexPath.item == 1 {
-            return collectionView.dequeueReusableCell(withReuseIdentifier: trendingCellId, for: indexPath)
+            identifier = trendingCellId
+        } else if indexPath.item == 2 {
+            identifier = subscriptionsCellId
         }
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: homeCellId, for: indexPath)
+        
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: identifier, for: indexPath)
         return cell
     }
     
@@ -96,6 +103,7 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
         
         collectionView?.register(FeedCell.self, forCellWithReuseIdentifier: homeCellId)
         collectionView?.register(TrendingCell.self, forCellWithReuseIdentifier: trendingCellId)
+        collectionView?.register(SubscriptionCell.self, forCellWithReuseIdentifier: subscriptionsCellId)
     }
     
     private func setUpMenuBar(){

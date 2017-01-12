@@ -21,6 +21,7 @@
 		AA62CC611E1448A1008045C1 /* HomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA62CC601E1448A1008045C1 /* HomeController.swift */; };
 		AA62CC661E1448A1008045C1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA62CC651E1448A1008045C1 /* Assets.xcassets */; };
 		AA62CC691E1448A1008045C1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA62CC671E1448A1008045C1 /* LaunchScreen.storyboard */; };
+		AA7FA1B31E270CD600EF6653 /* SubscriptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7FA1B21E270CD600EF6653 /* SubscriptionCell.swift */; };
 		CA69BA2C9D0AA5A6600B5C0B /* Pods_Youtube.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CF35277BADA6FD3D411657C /* Pods_Youtube.framework */; };
 		E377B6931E26A8BD009565F3 /* TrendingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E377B6921E26A8BD009565F3 /* TrendingCell.swift */; };
 /* End PBXBuildFile section */
@@ -45,6 +46,7 @@
 		AA62CC651E1448A1008045C1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AA62CC681E1448A1008045C1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		AA62CC6A1E1448A1008045C1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AA7FA1B21E270CD600EF6653 /* SubscriptionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubscriptionCell.swift; sourceTree = "<group>"; };
 		E377B6921E26A8BD009565F3 /* TrendingCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrendingCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -95,6 +97,7 @@
 				AA2EAB5B1E1DC0FA0053F500 /* SettingCell.swift */,
 				AA07411B1E20134300C30C6E /* FeedCell.swift */,
 				E377B6921E26A8BD009565F3 /* TrendingCell.swift */,
+				AA7FA1B21E270CD600EF6653 /* SubscriptionCell.swift */,
 			);
 			name = view;
 			sourceTree = "<group>";
@@ -291,6 +294,7 @@
 			files = (
 				AA62CC611E1448A1008045C1 /* HomeController.swift in Sources */,
 				AA0064721E1488EB00C3EB75 /* VideoCollectionCell.swift in Sources */,
+				AA7FA1B31E270CD600EF6653 /* SubscriptionCell.swift in Sources */,
 				AA2EAB5A1E1D9F960053F500 /* SettingsLauncher.swift in Sources */,
 				AA62CC5F1E1448A1008045C1 /* AppDelegate.swift in Sources */,
 				AA2EAB5F1E1F1C160053F500 /* APIService.swift in Sources */,
