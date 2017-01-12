@@ -18,7 +18,6 @@ class FeedCell: BaseCollectionCell, UICollectionViewDataSource, UICollectionView
     }
     
     let cellId = "cellId"
-//    var videos = [Video]()
     var videos: [Video]?
     
     lazy var collectionView: UICollectionView = {
@@ -79,6 +78,12 @@ class FeedCell: BaseCollectionCell, UICollectionViewDataSource, UICollectionView
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print(self.videos?[indexPath.row].title ?? "123")
+        let videoLauncher = VideoLauncher()
+        videoLauncher.showVideoPlayer()
     }
     
 }
