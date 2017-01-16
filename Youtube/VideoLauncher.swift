@@ -38,6 +38,14 @@ class VideoPlayerView: UIView {
         return view
     }()
     
+    let videoLengthLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "00:00"
+        label.textColor = .white
+        return label
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .black
@@ -58,6 +66,13 @@ class VideoPlayerView: UIView {
             make.centerY.equalToSuperview()
             make.width.equalTo(60)
             make.height.equalTo(60)
+        }
+        controlContainerView.addSubview(videoLengthLabel)
+        videoLengthLabel.snp.makeConstraints { (make) in
+            make.bottom.equalToSuperview()
+            make.right.equalToSuperview()
+            make.width.equalTo(50)
+            make.height.equalTo(36)
         }
     }
     
@@ -85,6 +100,7 @@ class VideoPlayerView: UIView {
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if keyPath == "currentItem.loadedTimeRanges" {
             pausePlayButton.isHidden = false
+            isVideoPlaying = true
             activityIndicatorView.stopAnimating()
             controlContainerView.backgroundColor = .clear
             
