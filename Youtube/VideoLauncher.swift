@@ -43,13 +43,52 @@ class VideoPlayerView: UIView {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "00:00"
         label.textColor = .white
+        label.font = UIFont.boldSystemFont(ofSize: 13)
+        label.textAlignment = .right
         return label
     }()
+    
+    let currentLengthLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "00:00"
+        label.textColor = .white
+        label.font = UIFont.boldSystemFont(ofSize: 13)
+        label.textAlignment = .left
+        return label
+    }()
+
+    
+    lazy var videoSlider: UISlider = {
+        let slider = UISlider()
+        slider.translatesAutoresizingMaskIntoConstraints = false
+        slider.minimumTrackTintColor = MyColor.mainRed
+        slider.maximumTrackTintColor = .white
+//        slider.setThumbImage(<#T##image: UIImage?##UIImage?#>, for: <#T##UIControlState#>)
+        
+        slider.addTarget(self, action: #selector(handleSliderChange), for: .valueChanged)
+        return slider
+    }()
+    
+    func handleSliderChange() {
+        print(videoSlider.value)
+        
+        if let duration = player?.currentItem?.duration {
+            let totalSeconds = CMTimeGetSeconds(duration)
+            let value = Float64(videoSlider.value) * totalSeconds
+            let seekTime = CMTime(value: Int64(value), timescale: 1)
+            player?.seek(to: seekTime, completionHandler: { (seekCompleted) in
+                // ...
+            })
+        }
+        
+    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .black
         setUpPlayerView()
+        setUpGradientLayer()
         controlContainerView.frame = frame
         addSubview(controlContainerView)
         controlContainerView.addSubview(activityIndicatorView)
@@ -69,10 +108,25 @@ class VideoPlayerView: UIView {
         }
         controlContainerView.addSubview(videoLengthLabel)
         videoLengthLabel.snp.makeConstraints { (make) in
-            make.bottom.equalToSuperview()
-            make.right.equalToSuperview()
+            make.bottom.equalToSuperview().offset(-2)
+            make.right.equalToSuperview().offset(-8)
             make.width.equalTo(50)
             make.height.equalTo(36)
+        }
+        
+        controlContainerView.addSubview(currentLengthLabel)
+        currentLengthLabel.snp.makeConstraints { (make) in
+            make.left.equalToSuperview().offset(8)
+            make.bottom.equalToSuperview().offset(-2)
+            make.width.equalTo(50)
+            make.height.equalTo(36)
+        }
+        controlContainerView.addSubview(videoSlider)
+        videoSlider.snp.makeConstraints { (make) in
+            make.right.equalTo(videoLengthLabel.snp.left)
+            make.bottom.equalToSuperview()
+            make.left.equalTo(currentLengthLabel.snp.right)
+            make.height.equalTo(30)
         }
     }
     
@@ -82,6 +136,15 @@ class VideoPlayerView: UIView {
     
     var player: AVPlayer?
     var isVideoPlaying: Bool?
+    
+    private func setUpGradientLayer(){
+        //MARK: setup gradient for slider
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.frame = bounds
+        gradientLayer.colors = [UIColor.clear.cgColor, UIColor.black.cgColor] // gradient colors has to be cgColor
+        gradientLayer.locations = [0.7, 1.2]
+        controlContainerView.layer.addSublayer(gradientLayer)
+    }
     
     private func setUpPlayerView(){
         let urlString = "https://firebasestorage.googleapis.com/v0/b/routine-77602.appspot.com/o/message_videos%2F1F13D18C-36B3-4AEC-8D7B-4BA77288D421.mov?alt=media&token=6a208334-5157-4b19-a0d5-d079745b4e58"
@@ -93,6 +156,15 @@ class VideoPlayerView: UIView {
             playerLayer.frame = self.frame
             player?.play()
             isVideoPlaying = true
+            
+            //MARK: how to track the progress of the video
+            let interval = CMTime(value: 1, timescale: 2)
+            player?.addPeriodicTimeObserver(forInterval: interval, queue: .main, using: { (progressTime) in
+                let seconds = CMTimeGetSeconds(progressTime)
+                let secondString = String(format: "%02d", Int(seconds.truncatingRemainder(dividingBy: 60)))
+                let mineteString = String(format: "%02d", Int(seconds / 60))
+                self.currentLengthLabel.text = "\(mineteString): \(secondString)"
+            })
         }
     }
     
@@ -103,6 +175,16 @@ class VideoPlayerView: UIView {
             isVideoPlaying = true
             activityIndicatorView.stopAnimating()
             controlContainerView.backgroundColor = .clear
+            
+            if let duration = player?.currentItem?.duration {
+                let seconds = CMTimeGetSeconds(duration)
+//                let secondsText = Int(seconds % 60)
+                let secondsText = seconds.truncatingRemainder(dividingBy: 60)
+                let secondsTextInt = Int(secondsText)
+//                let minuteText = Int(seconds / 60)
+                let minuteText = String(format: "%02d", Int(seconds) / 60)
+                videoLengthLabel.text = "\(minuteText):\(secondsTextInt)"
+            }
             
         }
     }
