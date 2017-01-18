@@ -57,7 +57,7 @@ extension UIImage {
 }
 
 //MARK: easy way to load image from URL
-let imageCache = NSCache<AnyObject, AnyObject>()
+let imageCache = NSCache<AnyObject, AnyObject>() // NSCache<NSString, UIImage>
 
 class cumstomImageView: UIImageView {
     var imageUrlString: String?

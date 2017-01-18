@@ -108,7 +108,7 @@ class VideoPlayerView: UIView {
         }
         controlContainerView.addSubview(videoLengthLabel)
         videoLengthLabel.snp.makeConstraints { (make) in
-            make.bottom.equalToSuperview().offset(-2)
+            make.bottom.equalToSuperview()
             make.right.equalToSuperview().offset(-8)
             make.width.equalTo(50)
             make.height.equalTo(36)
@@ -117,7 +117,7 @@ class VideoPlayerView: UIView {
         controlContainerView.addSubview(currentLengthLabel)
         currentLengthLabel.snp.makeConstraints { (make) in
             make.left.equalToSuperview().offset(8)
-            make.bottom.equalToSuperview().offset(-2)
+            make.bottom.equalToSuperview()
             make.width.equalTo(50)
             make.height.equalTo(36)
         }
@@ -164,6 +164,13 @@ class VideoPlayerView: UIView {
                 let secondString = String(format: "%02d", Int(seconds.truncatingRemainder(dividingBy: 60)))
                 let mineteString = String(format: "%02d", Int(seconds / 60))
                 self.currentLengthLabel.text = "\(mineteString): \(secondString)"
+                
+                //MARK: move the slider thumb
+                if let duration = self.player?.currentItem?.duration {
+                    let durationSeconds = CMTimeGetSeconds(duration)
+                    self.videoSlider.value = Float(seconds / durationSeconds)
+                    //Progress Bar Not Working
+                }
             })
         }
     }

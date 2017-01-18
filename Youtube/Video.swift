@@ -27,6 +27,10 @@ class SafeJsonObject: NSObject {
         
 //        let targetString = key.replacingOccurrences(of: String(key[key.startIndex]), with: String(key[key.startIndex]).capitalized) //replace every charactor that matches with first charactor
         
+//        let range = NSMakeRange(0, 1)
+//        let selector = NSString(string: key).replacingCharacters(in: range, with: String(key.characters.first!).uppercased())
+//        
+        
         let selector = NSSelectorFromString("set\(key.capitalizingFirstLetter()):")
 //        let selector = NSSelectorFromString("set\(key.capitalized):")
         let responds = self.responds(to: selector)
